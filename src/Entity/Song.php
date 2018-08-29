@@ -25,7 +25,7 @@ class Song
      */
     private $description;
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Type")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Type", inversedBy="songs")
      */
     private $idgenre;
     /**

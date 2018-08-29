@@ -24,8 +24,8 @@ class SongType extends AbstractType
             ->add('nblike')
             ->add('nbplayed')
             ->add('nbdownloaded')
-            ->add('idgenre')
-            ->add('iduser')
+            ->add('idgenre', TypeType::class)
+            ->add('iduser', UserType::class)
         ;
     }
 

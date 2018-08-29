@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TypeRepository")
@@ -21,6 +23,16 @@ class Type
      */
     private $typename;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Song", mappedBy="idgenre")
+     */
+    private $songs;
+
+    public function __construct()
+    {
+        $this->songs = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -30,9 +42,20 @@ class Type
     {
         return $this->typename;
     }
+
     public function setTypename(string $typename): self
     {
         $this->typename = $typename;
         return $this;
     }
+
+    /**
+     * @return Collection|Song[]
+     */
+    public function getSongs(): Collection
+    {
+        return $this->songs;
+    }
+
+
 }

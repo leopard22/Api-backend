@@ -19,11 +19,11 @@ class TypeController extends FOSRestController
 {
     /**
      * @Rest\Get(path="/type", name="type")
-     * @Rest\View
+     * @Rest\View(StatusCode=200)
      */
     public function index()
     {
-
+        return $this->view($this->getDoctrine()->getRepository(Type::class)->findAll());
     }
 
     /**
@@ -32,7 +32,15 @@ class TypeController extends FOSRestController
      */
     public function newType(Request $request){
 
-        dump($request);
+        $data = $request->request->all();
+        $genre = new Type();
+        $form = $this->get('form.factory')->create(TypeType::class, $genre);
+        $form->submit($data);
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($genre);
+        $em->flush();
+        return $this->view($genre, Response::HTTP_CREATED);
     }
 
      /**
