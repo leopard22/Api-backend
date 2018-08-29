@@ -4,7 +4,11 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Type;
+use App\Entity\Type;
+use App\Form\TypeType;
+use Symfony\Component\HttpFoundation\Response; 
+use JMS\Serializer\SerializationContext;
+use Symfony\Component\HttpFoundation\Request;
 
 class TypeController extends AbstractController
 {
@@ -14,10 +18,23 @@ class TypeController extends AbstractController
     public function index()
     {
 
+        $genre = new Type();
 
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/TypeController.php',
-        ]);
+        $genre->setTypename("rnb");
+
+        $data = $this->get('jms_serializer')->serialize($genre,'json');
+        $response = new Response($data);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
+
+    /**
+     * @Route("/type/new", name="new_type")
+     */
+    public function newType(Request $request){
+
+
+    }
+
+
 }
