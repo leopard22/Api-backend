@@ -7,17 +7,20 @@
         "ext-iconv": "*",
         "friendsofsymfony/rest-bundle": "^2.4",
         "jms/serializer-bundle": "^2.4",
+        "sensio/framework-extra-bundle": "^5.2",
         "symfony/console": "*",
         "symfony/flex": "^1.1",
         "symfony/form": "*",
         "symfony/framework-bundle": "*",
         "symfony/orm-pack": "^1.0",
+        "symfony/twig-bundle": "*",
         "symfony/validator": "*",
         "symfony/yaml": "*"
     },
     "require-dev": {
         "symfony/dotenv": "*",
         "symfony/maker-bundle": "^1.6",
+        "symfony/var-dumper": "*",
         "symfony/web-server-bundle": "*"
     },
     "config": {

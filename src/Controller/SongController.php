@@ -2,13 +2,23 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Controller\FOSRestController;
+// use FOS\RestBundle\View\View;
 
-class SongController extends AbstractController
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
+use App\Entity\Song;
+use App\Form\SongType;
+use App\Entity\User;
+
+
+class SongController extends FOSRestController
 {
     /**
-     * @Route("/song", name="song")
+     * @Rest\Get(path="/songs", name="songs")
      */
     public function index()
     {
@@ -16,5 +26,23 @@ class SongController extends AbstractController
             'message' => 'Welcome to your new controller!',
             'path' => 'src/Controller/SongController.php',
         ]);
+    }
+
+    /**
+     * @Rest\Post(path="/newsong", name="new_song")
+     * @Rest\View(statusCode = 201)
+     */
+    public function newsong()
+    {
+        
+    }
+
+    /**
+     * @Rest\Get(path="/song/{id}", name="song", requirements = {"id"="\d+"})
+     * 
+     */
+    public function song()
+    {
+        
     }
 }

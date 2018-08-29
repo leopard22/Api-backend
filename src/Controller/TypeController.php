@@ -2,38 +2,52 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\Annotations as Rest;
+// use FOS\RestBundle\View\View;
+
+use Symfony\Component\HttpFoundation\Response; 
+use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 use App\Entity\Type;
 use App\Form\TypeType;
-use Symfony\Component\HttpFoundation\Response; 
-use JMS\Serializer\SerializationContext;
-use Symfony\Component\HttpFoundation\Request;
 
-class TypeController extends AbstractController
+
+
+class TypeController extends FOSRestController
 {
     /**
-     * @Route("/type", name="type")
+     * @Rest\Get(path="/type", name="type")
+     * @Rest\View
      */
     public function index()
     {
 
-        $genre = new Type();
-
-        $genre->setTypename("rnb");
-
-        $data = $this->get('jms_serializer')->serialize($genre,'json');
-        $response = new Response($data);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
     }
 
     /**
-     * @Route("/type/new", name="new_type")
+     * @Rest\Post(path="/type/new", name="new_type")
+     * @Rest\View(StatusCode=201)
      */
     public function newType(Request $request){
 
+        dump($request);
+    }
 
+     /**
+     * @Rest\Post(path="/type/objet/new", name="new_objet_type")
+     * @ParamConverter("type", converter="fos_rest.request_body")
+     * @Rest\View(StatusCode=201)
+     */
+    public function newObjetType(Type $type){
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($type);
+        $em->flush();
+
+        // dump($type); die();
+        return $this->view($type, Response::HTTP_CREATED);
     }
 
 
