@@ -56,9 +56,21 @@ class SongController extends FOSRestController
      * @Rest\Get(path="/song/{id}", name="song", requirements = {"id"="\d+"})
      * 
      */
-    public function song()
+    public function song(Request $request, $id)
     {
-        
+        $song = $this->getDoctrine()->getRepository(Song::class)->find($id);
+        $currentImg = $song->getCoverpicture();
+        $user = $song->getIduser();
+        $data = $request->query->all(); dump($song); die();
+        $form = $this->get('form.factory')->create(SongType::class, $song);
+        $form->submit($data);
+        if($form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+        }
+
+        return $this->view($song, Response::HTTP_OK);
+
     }
 
      /**
