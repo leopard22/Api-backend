@@ -13,6 +13,7 @@ class UserType extends AbstractType
     {
         $builder
             ->add('avatar')
+            ->add('name')
         ;
     }
 

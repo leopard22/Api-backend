@@ -33,9 +33,23 @@ class SongController extends FOSRestController
      * @Rest\Post(path="/newsong", name="new_song")
      * @Rest\View(statusCode = 201)
      */
-    public function newsong()
+    public function newsong(Request $request)
     {
-        
+        $dateupload = new \DateTime('now');
+        $request->request->set('dateupload',$dateupload->format("Y-m-d"));
+        $genre = $this->getDoctrine()->getRepository(Type::class)->find($request->request->get('idgenre'));        
+        $user = $this->getDoctrine()->getRepository(User::class)->find(1);        
+        $data = $request->request->all();        
+        $song = new Song();
+        $song->setIdgenre($genre);
+        $song->setIduser($user);
+        $form = $this->get('form.factory')->create(SongType::class, $song);
+        $form->submit($data);
+        $em = $this->getDoctrine()->getManager();
+        dump($song); //die();
+        $em->persist($song);
+        $em->flush();
+        return $this->view($song, Response::HTTP_CREATED);
     }
 
     /**
